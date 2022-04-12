@@ -3,6 +3,7 @@ package queue
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"log"
 
 	"github.com/go-redis/redis/v8"
@@ -39,5 +40,15 @@ func setJob(jobID string, jobInfo JobItem) error {
 	if err != nil {
 		log.Printf("设置job时发生错误 jobID:%s # %s", jobID, err.Error())
 	}
+	return nil
+}
+
+func deleteJob(jobID string) error {
+	err := RedisDB.Del(context.Background(), jobID).Err()
+	if err != nil {
+		log.Printf("删除job发生错误 jobID:%s # %s", jobID, err.Error())
+		return err
+	}
+	fmt.Printf("删除job成功 jobID:%s \n", jobID)
 	return nil
 }

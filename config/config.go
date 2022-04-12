@@ -16,7 +16,7 @@ const (
 	// DefaultRedisDb Redis数据库编号
 	DefaultRedisDb = 1
 	// DefaultRedisPassword Redis密码
-	DefaultRedisPassword = "root"
+	DefaultRedisPassword = ""
 	// DefaultRedisMaxIdle Redis连接池闲置连接数
 	DefaultRedisMaxIdle = 10
 	// DefaultRedisMaxActive Redis连接池最大激活连接数, 0为不限制
@@ -33,6 +33,7 @@ var Setting *Config
 
 type Config struct {
 	BucketSize        int    //桶的数量
+	BindAddress       string //http监听地址
 	BucketName        string //bucket在redis的别名
 	QueueName         string //准备队列在redis的名称
 	QueueBlockTimeout int    // 调用blpop阻塞超时时间, 单位秒, 修改此项, redis.read_timeout必须做相应调整
@@ -54,7 +55,7 @@ func Init() {
 }
 
 func (config *Config) initDefaultConfig() {
-	// config.BindAddress = DefaultBindAddress
+	config.BindAddress = DefaultBindAddress
 	config.BucketSize = DefaultBucketSize
 	config.BucketName = DefaultBucketName
 	config.QueueName = DefaultQueueName
